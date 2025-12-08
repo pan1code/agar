@@ -1,0 +1,9 @@
+{
+  "game": {
+    "title": "Agar.io by Tomov & Antonova",
+    "version": "1.0",
+    "max_players": 1,
+    "initial_lives": 3,
+    "difficulty_levels": ["easy", "medium", "hard"]
+  }
+}
