@@ -150,17 +150,6 @@ class Player(Drawable):
         tw, th = text.get_size()
         self.surface.blit(text, (cx - tw // 2, cy - th // 2))
 
-
-
-def create_game(difficulty):
-    camera = Camera()
-    if difficulty == "easy":
-        return Grid(screen, camera), CellList(screen, camera, 800), Player(screen, camera, "You", 4)
-    elif difficulty == "hard":
-        return Grid(screen, camera), CellList(screen, camera, 300), Player(screen, camera, "You", 5)
-    else:
-        return Grid(screen, camera), CellList(screen, camera, 500), Player(screen, camera, "You", 4)
-
 def create_game(difficulty):
     camera = Camera()
     if difficulty == "easy":
@@ -204,19 +193,12 @@ while running:
                     score, lives = 0, INITIAL_LIVES
                     camera, grid, cells, player = create_game(DIFFICULTIES[difficulty_index])
                     state = "play"
-            if state == "game_over":
-                if e.key == pygame.K_RETURN:
-                    score, lives = 0, INITIAL_LIVES
-                    camera, grid, cells, player = create_game(DIFFICULTIES[difficulty_index])
-                    state = "play"
 
     if state == "play":
         player.move()
         eaten = player.eat(cells.cells)
         score += eaten * 10
         camera.follow(player)
-        if player.mass < 10:  # условие проигрыша
-            state = "game_over"
 
     screen.fill((242, 251, 255))
 
@@ -244,19 +226,6 @@ while running:
         screen.blit(lives_text, (10, 35))
         diff_text = font.render(f"{DIFFICULTIES[difficulty_index]}", True, (0, 0, 0))
         screen.blit(diff_text, (10, 60))
-
-    elif state == "game_over":
-        msg = font.render("GAME OVER", True, (200, 0, 0))
-        mw, mh = msg.get_size()
-        screen.blit(msg, (SCREEN_WIDTH // 2 - mw // 2, SCREEN_HEIGHT // 2 - 40))
-
-        score_text = font.render(f"Final Score: {score}", True, (0, 0, 0))
-        sw, sh = score_text.get_size()
-        screen.blit(score_text, (SCREEN_WIDTH // 2 - sw // 2, SCREEN_HEIGHT // 2))
-
-        restart = font.render("ENTER to restart", True, (100, 100, 100))
-        rw, rh = restart.get_size()
-        screen.blit(restart, (SCREEN_WIDTH // 2 - rw // 2, SCREEN_HEIGHT // 2 + 40))
 
     pygame.display.flip()
 
